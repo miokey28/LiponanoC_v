@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiponanoC - 次世代リポソームビタミンC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { -webkit-font-smoothing: antialiased; }
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 300;
+            color: #222222;
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+        .divider {
+            height: 1px;
+            background-color: rgba(34, 34, 34, 0.07);
+            border: none;
+            margin: 0 2rem;
+        }
+        .section-label {
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #F5A623;
+            font-weight: 300;
+        }
+        .section-heading {
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 0.04em;
+            line-height: 2;
+            color: #222222;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+        .accordion-active .accordion-content {
+            max-height: 300px;
+        }
+        .accordion-active .icon-plus  { display: none; }
+        .accordion-active .icon-minus { display: block; }
+        .icon-minus { display: none; }
+        .scroll-bounce { animation: vbounce 2.2s ease-in-out infinite; }
+        @keyframes vbounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30%            { transform: translateY(7px); }
+        }
+
+        /* FV 2-column layout */
+        .fv-row { display: flex; flex-direction: column; }
+        .fv-right { width: 100%; overflow: hidden; }
+        .fv-img   { width: 100%; height: auto; display: block; }
+        .fv-left  { width: 100%; background: #ffffff; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px 48px; }
+        .fv-tag   { font-size: 8px; letter-spacing: 0.25em; color: #F5A623; font-weight: 300; margin-bottom: 18px; }
+        .fv-h1    { font-size: 1.45rem; font-weight: 300; color: #333333; letter-spacing: 0.04em; line-height: 1.9; margin-bottom: 16px; }
+        .fv-body  { font-size: 11px; color: rgba(34,34,34,0.52); line-height: 2.1; font-weight: 300; margin-bottom: 28px; }
+        .fv-btn   { display: inline-block; text-align: center; border: 1px solid #F5A623; color: #F5A623; font-size: 10px; letter-spacing: 0.2em; padding: 14px 0; font-weight: 300; transition: opacity 0.2s; }
+        .fv-btn:active { opacity: 0.65; }
+
+        @media (min-width: 380px) {
+            .fv-row   { flex-direction: row-reverse; min-height: 430px; }
+            .fv-right { width: 50%; }
+            .fv-img   { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+            .fv-left  { width: 50%; padding: 36px 28px; }
+            .fv-h1    { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body class="max-w-md mx-auto relative">
+
+    <!-- Header -->
+    <header class="fixed top-0 z-40 w-full max-w-md bg-white/96 backdrop-blur-md border-b border-black/5 flex items-center px-6 py-4">
+        <img src="./logo.png" alt="LiponanoC" style="height: 34px; width: auto;">
+    </header>
+
+    <!-- FV: 2-col (image right / text left). Mobile: image top, text bottom -->
+    <section class="pt-14">
+        <div class="fv-row">
+            <!-- Image: top on mobile, right on wider -->
+            <div class="fv-right">
+                <img src="./hero.png" alt="LiponanoC" class="fv-img">
+            </div>
+            <!-- Text: bottom on mobile, left on wider -->
+            <div class="fv-left">
+                <p class="fv-tag">SUGAR FREE · ZERO FRICTION · TRAVEL READY</p>
+                <h1 class="fv-h1">
+                    その「我慢」、<br>美しさの遠回りに<br>なっていませんか？
+                </h1>
+                <p class="fv-body">
+                    美容賢者が選ぶ、ストレスフリーな高吸収ビタミン
+                </p>
+                <a href="#offer" class="fv-btn">今すぐ試してみる</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Badge + scroll hint -->
+    <div class="px-8 pt-10 pb-4 flex items-center space-x-2">
+        <svg class="w-3.5 h-3.5 text-[#F5A623] shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        <p class="text-[10px] text-[#222]/50 tracking-widest">歯科クリニック監修・推奨ブランド</p>
+    </div>
+    <div class="text-center py-10 scroll-bounce">
+        <p class="text-[8px] text-[#222]/28 tracking-[0.3em] mb-2">SCROLL</p>
+        <svg class="w-4 h-4 text-[#222]/20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Problem -->
+    <section class="px-8 py-20">
+        <p class="section-label mb-6">Problem</p>
+        <h2 class="section-heading mb-16">
+            綺麗になるためとはいえ、<br>毎朝の「修行」に<br>疲れていませんか？
+        </h2>
+
+        <div class="space-y-12">
+            <div class="flex items-start space-x-5">
+                <div class="shrink-0 mt-0.5">
+                    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="16" cy="16" r="13"/>
+                        <path d="M11 12 L14 15 M14 12 L11 15"/>
+                        <path d="M18 12 L21 15 M21 12 L18 15"/>
+                        <path d="M10 22 Q13 19 16 22 Q19 25 22 22"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm mb-1.5" style="font-weight: 400;">味が苦手...</p>
+                    <p class="text-xs text-[#222]/50 leading-loose">効果は信じているけれど、あの味がどうしても苦手。飲み込むのに気合がいる...</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-5">
+                <div class="shrink-0 mt-0.5">
+                    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="8" y="3" width="16" height="26" rx="2"/>
+                        <line x1="8" y1="13" x2="24" y2="13"/>
+                        <line x1="15" y1="7" x2="15" y2="11"/>
+                        <line x1="15" y1="17" x2="15" y2="23"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm mb-1.5" style="font-weight: 400;">冷蔵庫を占領...</p>
+                    <p class="text-xs text-[#222]/50 leading-loose">冷蔵庫の場所を占領。「これ何？」と家族に聞かれるのも面倒...</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-5">
+                <div class="shrink-0 mt-0.5">
+                    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4 L28 26 H4 Z"/>
+                        <line x1="16" y1="14" x2="16" y2="20"/>
+                        <circle cx="16" cy="23" r="1" fill="#F5A623" stroke="none"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-sm mb-1.5" style="font-weight: 400;">糖分が心配...</p>
+                    <p class="text-xs text-[#222]/50 leading-loose">飲みやすくするための「余計な甘味料」も気になっていた...</p>
+                </div>
+            </div>
+        </div>
+
+        <p class="mt-16 text-sm leading-loose text-[#222]/60">
+            そんなタイパと成分を重視するあなたに、<br>もっと合理的でスマートな選択肢が必要です。
+        </p>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Solution -->
+    <section class="px-8 py-20">
+        <p class="section-label mb-6">Solution</p>
+        <h2 class="section-heading mb-4">
+            もう、効果のために<br>何かを犠牲にする<br>必要はありません。
+        </h2>
+        <p class="text-xs text-[#222]/45 leading-loose mb-16">
+            LiponanoCは、「高吸収」と「続けやすさ」を両立させた、次世代のビタミンCです。
+        </p>
+
+        <div class="space-y-16">
+            <div>
+                <img src="./lemon.png" alt="美味しそうなレモンウォーター" class="w-full h-auto block rounded-lg mb-7">
+                <div class="flex items-baseline space-x-4 mb-2">
+                    <span class="text-[#F5A623]" style="font-size: 10px; letter-spacing: 0.2em; font-weight: 300;">01</span>
+                    <h3 style="font-size: 15px; font-weight: 400; letter-spacing: 0.06em;">美味しい</h3>
+                </div>
+                <p class="text-xs text-[#222]/50 leading-loose">レモン水感覚でゴクゴク飲める。砂糖も不使用。</p>
+            </div>
+            <div>
+                <img src="./pouch.png" alt="おしゃれなポーチにスティック" class="w-full h-auto block rounded-lg mb-7">
+                <div class="flex items-baseline space-x-4 mb-2">
+                    <span class="text-[#F5A623]" style="font-size: 10px; letter-spacing: 0.2em; font-weight: 300;">02</span>
+                    <h3 style="font-size: 15px; font-weight: 400; letter-spacing: 0.06em;">常温OK</h3>
+                </div>
+                <p class="text-xs text-[#222]/50 leading-loose">デスクやポーチに常備。場所を選ばない。</p>
+            </div>
+            <div>
+                <img src="./product.png" alt="外出先でサッと水に溶かす様子" class="w-full h-auto block rounded-lg mb-7">
+                <div class="flex items-baseline space-x-4 mb-2">
+                    <span class="text-[#F5A623]" style="font-size: 10px; letter-spacing: 0.2em; font-weight: 300;">03</span>
+                    <h3 style="font-size: 15px; font-weight: 400; letter-spacing: 0.06em;">個包装</h3>
+                </div>
+                <p class="text-xs text-[#222]/50 leading-loose">水さえあれば、いつでもどこでもチャージ完了。</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Mechanism -->
+    <section class="px-8 py-20">
+        <p class="section-label mb-6">Mechanism</p>
+        <h2 class="section-heading mb-16">
+            粉末なのに、なぜ高吸収？<br>秘密は成分を守る<br>「カプセル」にありました。
+        </h2>
+
+        <div class="mx-auto" style="max-width: 300px;">
+            <div class="flex justify-between">
+                <div class="text-center border border-[#F5A623]/50 rounded-full px-4 py-2" style="width: 118px;">
+                    <p style="font-size: 12px; font-weight: 400; letter-spacing: 0.06em;">守る</p>
+                    <p class="text-[9px] text-[#222]/40 mt-0.5" style="font-weight: 300;">カプセルが包み込む</p>
+                </div>
+                <div class="text-center border border-[#F5A623]/50 rounded-full px-4 py-2" style="width: 118px;">
+                    <p style="font-size: 12px; font-weight: 400; letter-spacing: 0.06em;">届ける</p>
+                    <p class="text-[9px] text-[#222]/40 mt-0.5" style="font-weight: 300;">壊れずに奥まで届く</p>
+                </div>
+            </div>
+            <svg width="100%" height="20" viewBox="0 0 300 20" preserveAspectRatio="none" style="display:block;">
+                <line x1="59" y1="0" x2="110" y2="20" stroke="#F5A623" stroke-width="1" stroke-dasharray="3 3" opacity="0.45"/>
+                <line x1="241" y1="0" x2="190" y2="20" stroke="#F5A623" stroke-width="1" stroke-dasharray="3 3" opacity="0.45"/>
+            </svg>
+            <div class="flex justify-center">
+                <img src="./woman.png" alt="リポソームビタミンCの吸収メカニズム" style="width: 200px;" class="h-auto block">
+            </div>
+            <svg width="100%" height="16" viewBox="0 0 300 16" preserveAspectRatio="none" style="display:block;">
+                <line x1="150" y1="0" x2="150" y2="16" stroke="#F5A623" stroke-width="1" stroke-dasharray="3 3" opacity="0.45"/>
+            </svg>
+            <div class="flex justify-center">
+                <div class="text-center border border-[#F5A623]/50 rounded-full px-6 py-2" style="min-width: 118px;">
+                    <p style="font-size: 12px; font-weight: 400; letter-spacing: 0.06em;">働く</p>
+                    <p class="text-[9px] text-[#222]/40 mt-0.5" style="font-weight: 300;">必要な場所で放出</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graph -->
+        <div class="mt-16 pt-12 border-t border-[#222]/6">
+            <p class="text-[10px] text-[#222]/40 text-center tracking-widest mb-10">一般的なビタミンCとの違い</p>
+            <div class="h-36 relative border-b border-l border-[#222]/12 pb-2 pl-2 mb-5">
+                <div class="absolute left-0 top-0 text-[8px] -translate-x-full -rotate-90 origin-right whitespace-nowrap text-[#222]/30">体内充足度</div>
+                <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path d="M0,80 Q30,10 50,20 T100,30" stroke="#F5A623" stroke-width="2" fill="none"/>
+                    <path d="M0,80 L20,10 L40,90 L100,90" stroke="rgba(34,34,34,0.15)" stroke-width="1.5" stroke-dasharray="4" fill="none"/>
+                </svg>
+                <div class="absolute bottom-0 right-0 text-[8px] translate-y-full text-[#222]/30">時間経過</div>
+            </div>
+            <div class="flex justify-center space-x-7">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-[#F5A623]"></span>
+                    <span class="text-[9px] text-[#222]/50">LiponanoC</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="inline-block w-4" style="border-top: 1.5px dashed rgba(34,34,34,0.18);"></span>
+                    <span class="text-[9px] text-[#222]/50">一般のビタミンC</span>
+                </div>
+            </div>
+            <p class="text-[8px] mt-8 text-[#222]/22 text-center leading-loose">※上記は一般的なリポソーム技術の概念図であり、<br>本製品の効果を保証するものではありません。</p>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Voice / UGC -->
+    <section class="px-8 py-20">
+        <p class="section-label mb-6">Voice</p>
+        <h2 class="section-heading mb-16">
+            「これに変えて正解でした」。<br>賢く選ぶ人たちの<br>リアルな声。
+        </h2>
+
+        <div class="space-y-14">
+            <div>
+                <img src="./review1.png" alt="お客様の声" class="w-full h-auto block rounded-lg mb-6">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-6 h-6 rounded-full bg-[#222]/8 shrink-0"></div>
+                    <span class="text-[9px] text-[#222]/40 tracking-widest">30代会社員 / タイパ重視派</span>
+                </div>
+                <p class="text-xs text-[#222]/60 leading-loose">
+                    「あの味が苦痛で...。LiponanoCはレモン水みたいに美味しく飲めて、砂糖不使用なのも嬉しい！やっと出会えた『最適解』です。」
+                </p>
+                <p class="text-[9px] text-[#F5A623] mt-3 tracking-widest"># タイパ最高</p>
+            </div>
+            <div>
+                <div class="w-full rounded-lg overflow-hidden mb-6" style="aspect-ratio: 3/2;">
+                    <img src="./review2.png" alt="お客様の声" class="w-full h-full object-cover block">
+                </div>
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-6 h-6 rounded-full bg-[#222]/8 shrink-0"></div>
+                    <span class="text-[9px] text-[#222]/40 tracking-widest">40代クリニック勤務 / 専門性重視派</span>
+                </div>
+                <p class="text-xs text-[#222]/60 leading-loose">
+                    「仕事柄、成分にはこだわります。しっかりとした技術で、常温保存できるなんて画期的。自信を持っておすすめしています。」
+                </p>
+                <p class="text-[9px] text-[#F5A623] mt-3 tracking-widest"># ドクターズコスメ</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Timeline -->
+    <section class="px-8 py-20">
+        <p class="section-label mb-6">Daily Routine</p>
+        <h2 class="section-heading mb-16">
+            24時間、もう場所も<br>時間も選ばない。
+        </h2>
+
+        <div class="relative pl-10 ml-1 space-y-14" style="border-left: 1px solid rgba(245,166,35,0.25);">
+            <div class="relative">
+                <div class="absolute -left-[42px] w-5 h-5 rounded-full bg-white flex items-center justify-center"
+                     style="border: 1px solid rgba(245,166,35,0.6);">
+                    <span class="text-[#F5A623]" style="font-size: 7px; font-weight: 400;">07</span>
+                </div>
+                <p class="text-[9px] text-[#222]/35 tracking-widest mb-2">07:00 Morning</p>
+                <div class="w-full h-28 bg-[#F5F5F5] rounded-lg mb-3 flex items-center justify-center text-xs text-[#222]/20">[Photo: 朝の準備風景]</div>
+                <p class="text-xs text-[#222]/50 leading-loose">忙しい朝も、コップ一杯の水に溶かして10秒チャージ。</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[42px] w-5 h-5 rounded-full bg-white flex items-center justify-center"
+                     style="border: 1px solid rgba(245,166,35,0.6);">
+                    <span class="text-[#F5A623]" style="font-size: 7px; font-weight: 400;">13</span>
+                </div>
+                <p class="text-[9px] text-[#222]/35 tracking-widest mb-2">13:00 Lunch</p>
+                <div class="w-full h-28 bg-[#F5F5F5] rounded-lg mb-3 flex items-center justify-center text-xs text-[#222]/20">[Photo: オフィスランチ]</div>
+                <p class="text-xs text-[#222]/50 leading-loose">ランチ後、午後のためにサッとリフレッシュ。</p>
+            </div>
+            <div class="relative">
+                <div class="absolute -left-[42px] w-5 h-5 rounded-full bg-white flex items-center justify-center"
+                     style="border: 1px solid rgba(245,166,35,0.6);">
+                    <span class="text-[#F5A623]" style="font-size: 7px; font-weight: 400;">20</span>
+                </div>
+                <p class="text-[9px] text-[#222]/35 tracking-widest mb-2">20:00 Travel</p>
+                <div class="w-full h-28 bg-[#F5F5F5] rounded-lg mb-3 flex items-center justify-center text-xs text-[#222]/20">[Photo: ホテルでのリラックス]</div>
+                <p class="text-xs text-[#222]/50 leading-loose">出張先でも、いつものルーティンを継続。</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- FAQ -->
+    <section class="px-8 py-20">
+        <p class="section-label mb-6">FAQ</p>
+        <h2 class="section-heading mb-14">
+            購入前の不安、<br>ここで解決します。
+        </h2>
+
+        <div>
+            <div class="accordion-item py-6 border-b border-[#222]/7">
+                <button onclick="toggleAccordion(this)" class="w-full flex justify-between items-start text-left">
+                    <span class="text-xs text-[#222]/70 leading-loose pr-4" style="font-weight: 400;">本当に水なしでは飲めないの？面倒じゃない？</span>
+                    <span class="shrink-0 mt-1">
+                        <svg class="icon-plus w-3.5 h-3.5 text-[#F5A623]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <svg class="icon-minus w-3.5 h-3.5 text-[#F5A623]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 12H4"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="accordion-content">
+                    <p class="text-xs text-[#222]/45 leading-loose pt-5 pb-1">
+                        はい、最高のパフォーマンスを発揮するため、水（またはぬるま湯）に溶かしてお飲みください。コップ1杯の水が、上質な美容ウォーターに変わる瞬間をお楽しみください。
+                    </p>
+                </div>
+            </div>
+            <div class="accordion-item py-6 border-b border-[#222]/7">
+                <button onclick="toggleAccordion(this)" class="w-full flex justify-between items-start text-left">
+                    <span class="text-xs text-[#222]/70 leading-loose pr-4" style="font-weight: 400;">あの独特な味は本当にしない？</span>
+                    <span class="shrink-0 mt-1">
+                        <svg class="icon-plus w-3.5 h-3.5 text-[#F5A623]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <svg class="icon-minus w-3.5 h-3.5 text-[#F5A623]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 12H4"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="accordion-content">
+                    <p class="text-xs text-[#222]/45 leading-loose pt-5 pb-1">
+                        はい。既存の液体タイプ特有の苦味や臭みを抑え、毎日続けやすい爽やかなレモン風味に仕上げました。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Offer -->
+    <section id="offer" class="px-8 py-20">
+        <p class="section-label mb-6">Special Offer</p>
+        <h2 class="section-heading mb-3">
+            リスクなしで、<br>スマートな美習慣を。
+        </h2>
+        <p class="text-xs text-[#222]/40 leading-loose mb-14">もう、美容のために何かを我慢する必要はありません。</p>
+
+        <div class="border-t border-[#222]/7 pt-12">
+            <p class="text-[9px] text-[#222]/35 tracking-[0.2em] mb-4">初回限定お試しモニターコース</p>
+            <div class="flex items-baseline space-x-3 mb-12">
+                <span class="text-xs text-[#222]/28 line-through">通常 6,500円</span>
+                <span class="text-[#222]" style="font-size: 2.4rem; font-weight: 300; letter-spacing: -0.02em; line-height: 1;">X,XXX</span>
+                <span class="text-sm text-[#222]/55">円</span>
+                <span class="text-[9px] text-[#F5A623] tracking-wider px-2 py-1" style="border: 1px solid rgba(245,166,35,0.4);">XX% OFF</span>
+            </div>
+
+            <div class="space-y-4 mb-14">
+                <div class="flex items-center space-x-3">
+                    <span class="block w-0.5 h-3 bg-[#F5A623] shrink-0"></span>
+                    <span class="text-xs text-[#222]/55">全国どこでも送料無料</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="block w-0.5 h-3 bg-[#F5A623] shrink-0"></span>
+                    <span class="text-xs text-[#222]/55">30日間全額返金保証付き</span>
+                </div>
+            </div>
+
+            <a href="#"
+               class="block w-full text-center text-white active:opacity-80 transition-opacity mb-4"
+               style="background: #F5A623; font-size: 12px; letter-spacing: 0.18em; padding: 20px 0; font-weight: 300;">
+                今すぐ賢い美容習慣を始める
+            </a>
+            <a href="#"
+               class="block w-full text-center active:opacity-60 transition-opacity"
+               style="border: 1px solid rgba(34,34,34,0.12); color: rgba(34,34,34,0.4); font-size: 10px; letter-spacing: 0.18em; padding: 14px 0; font-weight: 300;">
+                詳しく見る
+            </a>
+
+            <p class="text-[8px] mt-8 text-[#222]/25 text-center leading-loose">
+                ※いつでも解約・休止OK。回数縛りはありません。<br>
+                ※お申込みは1分で完了します。
+            </p>
+        </div>
+
+        <div class="mt-20 pt-14 border-t border-[#222]/5">
+            <p class="text-xs text-[#222]/45 leading-loose text-center">
+                あなたの貴重な時間と労力を、もう「修行」に費やすのはやめにしませんか？<br>
+                歯科医が考えたLiponanoCが、あなたの美しさを最も効率的にサポートします。
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-8 py-14 pb-44 border-t border-[#222]/6">
+        <div class="flex justify-center space-x-8 mb-8 text-[8px] text-[#222]/30 tracking-widest">
+            <a href="#">会社概要</a>
+            <a href="#">プライバシーポリシー</a>
+            <a href="#">特定商取引法</a>
+        </div>
+        <p class="text-[8px] text-[#222]/18 text-center tracking-widest">© LiponanoC. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Fixed Footer CTA -->
+    <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/97 backdrop-blur-md border-t border-[#222]/6 px-6 py-4 z-50">
+        <p class="text-[8px] text-center text-[#222]/35 tracking-widest mb-3">30日間全額返金保証付き</p>
+        <a href="#offer"
+           class="block w-full text-center text-white active:opacity-80 transition-opacity"
+           style="background: #F5A623; font-size: 11px; letter-spacing: 0.18em; padding: 16px 0; font-weight: 300;">
+            今すぐ賢い美容習慣を始める
+        </a>
+    </div>
+
+    <script>
+        function toggleAccordion(button) {
+            const item = button.parentElement;
+            const isActive = item.classList.contains('accordion-active');
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('accordion-active'));
+            if (!isActive) item.classList.add('accordion-active');
+        }
+    </script>
+</body>
+</html>
